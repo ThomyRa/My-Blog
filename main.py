@@ -10,7 +10,6 @@ from flask_login import (
     UserMixin,
     login_user,
     LoginManager,
-    login_required,
     current_user,
     logout_user,
 )
@@ -184,7 +183,7 @@ def logout():
 
 @app.route("/")
 def get_all_posts():
-    result = db.session.execute(db.select(BlogPost))
+    result = db.session.execute(db.select(BlogPost).order_by(BlogPost.id.desc()))
     posts = result.scalars().all()
     return render_template("index.html", all_posts=posts, current_user=current_user)
 
